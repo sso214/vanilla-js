@@ -1,0 +1,64 @@
+main {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #999;
+    border-radius: 5px;
+    text-align: center;
+}
+
+section {
+    flex: 1;
+}
+
+#timeBox {
+    margin-bottom: 50px;
+
+    font-size: 30px;
+    font-weight:bold;
+}
+
+.button-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+button {
+    width: 48%;
+    height: 45px;
+    margin: 3px 1%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+
+    color: #fff;
+    background: #000;
+    border: 0;
+    cursor: pointer;
+}
+
+aside {
+    margin-left: 20px;
+    flex: none;
+}
+
+ol {
+    height: 300px;
+    padding: 5px;
+
+    overflow: auto;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+li {
+    list-style: none;
+}
