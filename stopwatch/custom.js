@@ -15,8 +15,8 @@ class StopWatch {
     }
 
     get timeStr() {
-        const time = this.time.map((v) => `${v}`.padStart(2, '0'));
-        return time.join(':');
+        const timeFormat = this.time.map((v) => `${v}`.padStart(2, '0'));
+        return timeFormat.join(':');
     }
 
     setTime(time) {
@@ -58,12 +58,11 @@ class StopWatch {
     }
 
     record() {
-        this.$recordList.innerHTML = `<li></li>`
-        console.log('record');
+        const list = this.$recordList.innerHTML;
+        this.$recordList.innerHTML = `<li>${this.timeStr}</li>${list}`
     }
 
     render() {
-        // const time = this.time.map((v) => `${v}`.padStart(2, '0'));
         this.$timeBox.innerHTML = this.timeStr;
     }
 

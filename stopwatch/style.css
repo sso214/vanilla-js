@@ -51,8 +51,9 @@ aside {
 }
 
 ol {
+    min-width:100px;
     height: 300px;
-    padding: 5px;
+    padding: 10px;
 
     overflow: auto;
     border: 1px solid #999;
