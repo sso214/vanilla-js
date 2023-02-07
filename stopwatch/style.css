@@ -26,22 +26,21 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 
 button {
-    width: 48%;
     height: 45px;
     margin: 3px 1%;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 3px;
+    flex: 1;
 
     color: #fff;
     background: #000;
     border: 0;
+    border-radius: 3px;
     cursor: pointer;
 }
 

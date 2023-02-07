@@ -19,6 +19,27 @@ class StopWatch {
         return timeFormat.join(':');
     }
 
+    get startButton() {
+        return this.getButton('start');
+    }
+
+    get stopButton() {
+        return this.getButton('stop');
+    }
+
+    get resetButton() {
+        return this.getButton('reset');
+    }
+
+    get recordButton() {
+        return this.getButton('record');
+    }
+
+    getButton(type) {
+        return [...this.$buttonWrap.childNodes]
+            .filter((v) => v.dataset?.type === type)[0];
+    }
+
     setTime(time) {
         this.time = [...time];
         this.render();
@@ -54,6 +75,7 @@ class StopWatch {
     }
 
     reset() {
+        this.stop();
         this.setTime([0,0,0]);
     }
 
@@ -73,12 +95,18 @@ class StopWatch {
             switch (type) {
                 case 'start':
                     this.start();
+                    this.startButton.style.display = 'none';
+                    this.stopButton.style.display = 'block';
                     break;
                 case 'stop':
                     this.stop();
+                    this.startButton.style.display = 'block';
+                    this.stopButton.style.display = 'none';
                     break;
                 case 'reset':
                     this.reset();
+                    this.startButton.style.display = 'block';
+                    this.stopButton.style.display = 'none';
                     break;
                 case 'record':
                     this.record();
