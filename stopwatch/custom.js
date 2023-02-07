@@ -77,6 +77,7 @@ class StopWatch {
     reset() {
         this.stop();
         this.setTime([0,0,0]);
+        this.$recordList.innerHTML = '';
     }
 
     record() {
