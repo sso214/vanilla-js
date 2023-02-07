@@ -6,6 +6,12 @@ class StopWatch {
     time;
     timeout;
 
+    //외부에서 사용하지 않는 메서드의 경우 private으로 만들기 (button dom)
+    //버튼 3개로 관리 (start -> stop)
+    //innerHTML 대신 insertAdjacentHTML 사용
+    //getButton filter 대신 find 사용
+
+
     constructor({ timeBox, buttonWrap, recordList }) {
         this.$timeBox = timeBox;
         this.$buttonWrap = buttonWrap;
@@ -81,8 +87,8 @@ class StopWatch {
     }
 
     record() {
-        const list = this.$recordList.innerHTML;
-        this.$recordList.innerHTML = `<li>${this.timeStr}</li>${list}`
+        console.log(this.$recordList);
+        this.$recordList.insertAdjacentHTML('afterbegin',`<li>${this.timeStr}</li>`);
     }
 
     render() {
