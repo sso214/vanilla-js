@@ -1,65 +1,52 @@
 class StopWatch {
-    $timeBox;
-    $buttonWrap;
-    $recordList;
+    #$timeBox;
+    #$buttonWrap;
+    #$recordList;
 
-    time;
-    timeout;
+    #time;
+    #timeout;
 
-    //외부에서 사용하지 않는 메서드의 경우 private으로 만들기 (button dom)
-    //버튼 3개로 관리 (start -> stop)
-    //innerHTML 대신 insertAdjacentHTML 사용
-    //getButton filter 대신 find 사용
-
+    //엘리먼트 생성도 class 내부에서
 
     constructor({ timeBox, buttonWrap, recordList }) {
-        this.$timeBox = timeBox;
-        this.$buttonWrap = buttonWrap;
-        this.$recordList = recordList;
+        this.#$timeBox = timeBox;
+        this.#$buttonWrap = buttonWrap;
+        this.#$recordList = recordList;
 
-        this.init();
+        this.#init();
     }
 
-    get timeStr() {
-        const timeFormat = this.time.map((v) => `${v}`.padStart(2, '0'));
+    get #timeStr() {
+        const timeFormat = this.#time.map((v) => `${v}`.padStart(2, '0'));
         return timeFormat.join(':');
     }
 
-    get startButton() {
-        return this.getButton('start');
+    #getButton(type) {
+        return [...this.#$buttonWrap.childNodes].find((v) => v.dataset?.type === type);
     }
 
-    get stopButton() {
-        return this.getButton('stop');
+    #changeButton(before, after) {
+        const target = this.#getButton(before);
+        if (target) {
+            target.dataset.type = after;
+            target.innerText = `${after[0].toUpperCase()}${after.substring(1,)}`;
+        }
     }
 
-    get resetButton() {
-        return this.getButton('reset');
+    #setTime(time) {
+        this.#time = [...time];
+        this.#render();
     }
 
-    get recordButton() {
-        return this.getButton('record');
+    #init() {
+        this.#setTime([0,0,0]);
+        this.#addEvent();
     }
 
-    getButton(type) {
-        return [...this.$buttonWrap.childNodes]
-            .filter((v) => v.dataset?.type === type)[0];
-    }
+    #start() {
+        let [mn, sc, ms] = this.#time;
 
-    setTime(time) {
-        this.time = [...time];
-        this.render();
-    }
-
-    init() {
-        this.setTime([0,0,0]);
-        this.addEvent();
-    }
-
-    start() {
-        let [mn, sc, ms] = this.time;
-
-        this.timeout = setInterval(() => {
+        this.#timeout = setInterval(() => {
             if (ms === 99) {
                 ms = -1;
                 sc++;
@@ -72,51 +59,47 @@ class StopWatch {
 
             ms++;
 
-            this.setTime([mn, sc, ms]);
+            this.#setTime([mn, sc, ms]);
         }, 10);
     }
 
-    stop() {
-        clearTimeout(this.timeout);
+    #stop() {
+        clearTimeout(this.#timeout);
     }
 
-    reset() {
-        this.stop();
-        this.setTime([0,0,0]);
-        this.$recordList.innerHTML = '';
+    #reset() {
+        this.#stop();
+        this.#setTime([0,0,0]);
+        this.#$recordList.innerHTML = '';
     }
 
-    record() {
-        console.log(this.$recordList);
-        this.$recordList.insertAdjacentHTML('afterbegin',`<li>${this.timeStr}</li>`);
+    #record() {
+        this.#$recordList.insertAdjacentHTML('afterbegin',`<li>${this.#timeStr}</li>`);
     }
 
-    render() {
-        this.$timeBox.innerHTML = this.timeStr;
+    #render() {
+        this.#$timeBox.innerHTML = this.#timeStr;
     }
 
-    addEvent() {
-        this.$buttonWrap.addEventListener('click', (e) => {
+    #addEvent() {
+        this.#$buttonWrap.addEventListener('click', (e) => {
             const type = e.target.dataset.type;
 
             switch (type) {
                 case 'start':
-                    this.start();
-                    this.startButton.style.display = 'none';
-                    this.stopButton.style.display = 'block';
+                    this.#start();
+                    this.#changeButton('start', 'stop');
                     break;
                 case 'stop':
-                    this.stop();
-                    this.startButton.style.display = 'block';
-                    this.stopButton.style.display = 'none';
+                    this.#stop();
+                    this.#changeButton('stop', 'start');
                     break;
                 case 'reset':
-                    this.reset();
-                    this.startButton.style.display = 'block';
-                    this.stopButton.style.display = 'none';
+                    this.#reset();
+                    this.#changeButton('stop', 'start');
                     break;
                 case 'record':
-                    this.record();
+                    this.#record();
                     break;
                 default:
                     return false;
